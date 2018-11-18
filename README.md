@@ -43,7 +43,7 @@ Run Shell:
 ```
  $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image 
 
- $ terraform.sh ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
+ $ terraform init; terrafrorm apply ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
 ```
 
 
