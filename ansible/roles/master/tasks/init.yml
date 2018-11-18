@@ -1,0 +1,34 @@
+- lineinfile: dest=/etc/sysctl.conf line='net.bridge.bridge-nf-call-ip6tables = 1' state=present
+- lineinfile: dest=/etc/sysctl.conf line='net.bridge.bridge-nf-call-iptables = 1' state=present
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
+- name: Disable swap
+  command: swapoff -a
+  when: ansible_swaptotal_mb > 0
+- name: initialize kube
+  shell: >
+       kubeadm reset --force &&
+       sysctl -p &&
+       kubeadm init --apiserver-advertise-address=192.168.122.248 --pod-network-cidr=10.244.0.0/16
+  args:
+    creates: /etc/kubeadm-join.sh
+  register: kubeadm_out
+- lineinfile:
+    path: /etc/kubeadm-join.sh
+    line: "{{kubeadm_out.stdout_lines[-1]}}"
+    create: yes
+  when: kubeadm_out.stdout.find("kubeadm join") != -1
+- service: name=kubelet state=started enabled=yes
+- file: name=/etc/kubectl state=directory
+- name: fix configmap for proxy
+  shell: >
+    export KUBECONFIG=/etc/kubernetes/admin.conf ;
+    kubectl -n kube-system get cm/kube-proxy -o yaml
+    | sed -e 's!clusterCIDR: ""!clusterCIDR: "192.168.122.0/24"!' >/etc/kubectl/kube-proxy.map ;
+    kubectl -n kube-system replace cm/kube-proxy -f  /etc/kubectl/kube-proxy.map ;
+    kubectl -n kube-system delete pods -l k8s-app=kube-proxy
+  args:
+    creates: /etc/kubectl/kube-proxy.map

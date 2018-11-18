@@ -1,0 +1,7 @@
+- lineinfile:
+    path: /root/.bash_profile
+    line: 'export KUBECONFIG=/etc/kubernetes/admin.conf'
+    create: yes
+- file: path=/home/ubuntu/.kube state=directory owner=ubuntu
+- command: cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config
+- file: name=/home/ubuntu/.kube/config state=file owner=ubuntu
