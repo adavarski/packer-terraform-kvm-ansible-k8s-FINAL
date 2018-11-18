@@ -14,28 +14,11 @@ Automatically provision a fully customizable and production-worthy cloud<br>
 - GitLab : Code storage and CI/CD with GitLab Pipelines
 - ElasticSearch, LogStash, Kibana : Log aggregation, indexing and beautiful visualization
 
-##### Packer
-1. Download ISO and build custom image from preseed.cfg. Using Qemu!
+##### Packer and Terraform
 
- $ packer.sh 
+Download and install packer and terraform 
 
-TODO1: add python-minimal and cloud-init to file ubuntu-xenial-nodes.tf or preceed.cfg file, setup sudoers: ubuntu ALL=(ALL) NOPASSWD: ALL, add your public key to ubuntu user authorized_keys, implement /ansible/roles/prepare/tasks into base image (install docker, k8s, and setup k8s env)
-
-```
-"provisioners": [{
-    "type": "shell",
-    "inline": [
-   
-      "sudo apt-get update",
-      "sudo apt-get install -y python-minimal cloud-init",
-     
-    ]
-  }  
-```  
-##### Terraform
-2. Use the custom image to boot three VMs (the image can also be pushed to bare-metal in raw format)
-
-Setup ENV:
+Terraform Setup Env:
 
 $ systemctl stop/disable apparmor
 
@@ -56,24 +39,14 @@ $ terraform init ---> create $HOME/.terraform.d
 
 $ cd $HOME/.terraform.d; mkdir plugins; cp $GOPATH/bin/terraform-provider-libvirt $HOME/.terraform.d/plugins
 
-$ cd terraform
+Run Shell:
+```
+ $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image 
 
-$ terraform init
+ $ terraform.sh ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
+```
 
-$ terraform apply
 
-TODO2: Add private key via cloud-init if you don't add via packer
-``` 
------ add to file ubuntu-xenial-nodes.tf
- data "template_file" "user_data" {
-  template = "${file("${path.module}/cloud_init.cfg")}"
-}
-
------new file cloud_init.cfg
-#cloud-config
-ssh_authorized_keys:
-  - ssh-rsa mR7XxKmAM/+SJw0jww+7Rq/Ds0+wDAj+wNc1RczI5C2wZ6ydML2RM6IaA14LS8
-```  
 ##### Libvirt/KVM
 3. Linux bridge, KVM Vifs in bridged mode: the VMs draw their IPs from the physical LAN
 
@@ -81,7 +54,7 @@ Get nodes IPs
 
 Example:
 ```
-$ for i in {000,001,002}; do virsh domifaddr ubuntu$i;done
+$ for i in {n1,n2,n3}; do virsh domifaddr k8s$i;done
  Name       MAC address          Protocol     Address
 -------------------------------------------------------------------------------
  vnet2      1e:77:aa:f9:29:42    ipv4         192.168.122.248/24
@@ -111,13 +84,8 @@ $ cat ansible/inventory
 192.168.122.92
 192.168.122.9
 
-for i in VMs ssh ubuntu@VM_IP "apt install python-minimal" if not provisioned via packer
-
-Setup keys and sudo:
 
 $ sudo apt install sshpass
-
-$ ansible-playbook -i ./inventory send_keys.yml  --ask-pass --ask-sudo-pass
 
 Setup k8s 
 
