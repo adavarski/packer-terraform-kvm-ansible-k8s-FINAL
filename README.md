@@ -54,7 +54,7 @@ Get nodes IPs
 
 Example:
 ```
-$ for i in {n1,n2,n3}; do virsh domifaddr k8s$i;done
+$ for i in {000,0001,0002}; do virsh domifaddr k8s$i;done
  Name       MAC address          Protocol     Address
 -------------------------------------------------------------------------------
  vnet2      1e:77:aa:f9:29:42    ipv4         192.168.122.248/24
