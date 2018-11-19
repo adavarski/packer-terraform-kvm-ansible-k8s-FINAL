@@ -34,7 +34,8 @@
     "inline": [
       "apt-get update",
       "apt-get install -y ansible",
-      "apt-get install -y python-minimal"
+      "apt-get install -y python-minimal",
+      "apt-get install -y curl"
     ]
   },
   {
