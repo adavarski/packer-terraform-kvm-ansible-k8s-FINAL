@@ -41,7 +41,7 @@ $ cd $HOME/.terraform.d; mkdir plugins; cp $GOPATH/bin/terraform-provider-libvir
 
 Run Shell:
 ```
- $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image 
+ $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image or we can use $ packer-packages.sh to build image with packages installed (python-minimal, ansible) and also can add ssh key and provision with ansible-local 
 
  $ terraform init; terrafrorm apply ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
  
