@@ -18,7 +18,7 @@ Automatically provision a fully customizable and production-worthy cloud<br>
 
 Download and install packer and terraform 
 
-Terraform Setup Env:
+```Terraform Setup Env:
 
 $ systemctl stop/disable apparmor
 
@@ -38,12 +38,16 @@ You will now find the binary at $GOPATH/bin/terraform-provider-libvirt
 $ terraform init ---> create $HOME/.terraform.d
 
 $ cd $HOME/.terraform.d; mkdir plugins; cp $GOPATH/bin/terraform-provider-libvirt $HOME/.terraform.d/plugins
+```
 
 Run Shell:
 ```
  $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image 
+ or we can use $ packer-packages.sh to build image with packages installed (python-minimal, ansible) 
+ and also can add ssh key and provision with ansible-local 
 
- $ terraform init; terrafrorm apply ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
+ $ terraform init; terrafrorm apply ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init 
+ to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
  
  Restart VMs because of machine-id bug --- cloud-init: rm /etc/machine-id
  
