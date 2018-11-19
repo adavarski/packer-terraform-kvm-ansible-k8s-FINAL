@@ -1,0 +1,16 @@
+{
+    "version": 3,
+    "terraform_version": "0.11.10",
+    "serial": 16,
+    "lineage": "f29b0203-e406-41ec-1a52-1583e03df717",
+    "modules": [
+        {
+            "path": [
+                "root"
+            ],
+            "outputs": {},
+            "resources": {},
+            "depends_on": []
+        }
+    ]
+}

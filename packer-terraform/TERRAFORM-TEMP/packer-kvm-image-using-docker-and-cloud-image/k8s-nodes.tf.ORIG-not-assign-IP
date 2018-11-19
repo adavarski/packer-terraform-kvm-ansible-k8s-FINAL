@@ -1,0 +1,46 @@
+################################
+# Auto-Cloud Terraform Builder #
+################################
+# Libvirt provider #
+##################################
+# Ubuntu 16.04 from Packer Build #
+##################################
+
+provider "libvirt" { uri = "qemu:///system" }
+
+resource "libvirt_volume" "k8s-disk" {
+  count = 3 
+  name = "k8s00${count.index}.qcow2"
+  source = "./image/ubuntu"
+}
+
+resource "libvirt_domain" "kubernetes" {
+  count = 3 
+  name = "k8s00${count.index}"
+  memory = "512"
+  vcpu = 1
+
+  disk { volume_id = "${element(libvirt_volume.k8s-disk.*.id, count.index)}" }
+
+  network_interface {
+    network_name = "default"
+  }
+
+  console {
+    type        = "pty"
+    target_port = "0"
+    target_type = "serial"
+  }
+
+  console {
+    type        = "pty"
+    target_type = "virtio"
+    target_port = "1"
+  }
+
+  graphics {
+    type        = "spice"
+    listen_type = "address"
+    autoport    = true
+  }
+}

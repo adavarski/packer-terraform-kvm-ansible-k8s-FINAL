@@ -1,0 +1,156 @@
+{
+    "version": 3,
+    "terraform_version": "0.11.10",
+    "serial": 16,
+    "lineage": "4d958f79-c5bb-7162-c03b-0f19918e51e8",
+    "modules": [
+        {
+            "path": [
+                "root"
+            ],
+            "outputs": {},
+            "resources": {
+                "data.template_file.network_config": {
+                    "type": "template_file",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "f766301a66db69fae0ac86dbdcb706b7e5a2cde01e1babe87ac95aeffb995015",
+                        "attributes": {
+                            "id": "f766301a66db69fae0ac86dbdcb706b7e5a2cde01e1babe87ac95aeffb995015",
+                            "rendered": "network:\nversion: 2\n        ethernets:\n         eno1:\n         dhcp4: true\n",
+                            "template": "network:\nversion: 2\n        ethernets:\n         eno1:\n         dhcp4: true\n"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.template"
+                },
+                "data.template_file.user_data": {
+                    "type": "template_file",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "92db11c43142452f21fb2d6c4ad760fb34dbf5cd176e93239c5a8ff87456f38e",
+                        "attributes": {
+                            "id": "92db11c43142452f21fb2d6c4ad760fb34dbf5cd176e93239c5a8ff87456f38e",
+                            "rendered": "#cloud-config\n# vim: syntax=yaml\n#\n# ***********************\n# \t---- for more examples look at: ------\n# ---\u003e https://cloudinit.readthedocs.io/en/latest/topics/examples.html\n# ******************************\n#\n# This is the configuration syntax that the write_files module\n# will know how to understand. encoding can be given b64 or gzip or (gz+b64).\n# The content will be decoded accordingly and then written to the path that is\n# provided.\n#\n# Note: Content strings here are truncated for example purposes.\nhostname: k8s000\npackage_update: true\npackages:\n- python-minimal\nssh_authorized_keys:\n  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsBhelq2Y9w2DBglDCiFnF9ViCiBEPMiGQBbhkkFPeO12/P5lg1ZJz+CzxS3f5hmoIHLX0LPvqL9Rl2geCuYGSWuYikSL4P3Dtx271n5gUcwZZqhuReM4hdoBmR7XxKmAM/+SJw0jww+7Rq/Ds0+wDAj+wNc1RczI5C2wZ6ydML2RM6IaA14LS8eYTeQyF5FkF9Bcs2lvcnCALADDdbwK8S0I9ivm8mg0bvu2sApHUs3hyCuybpi1cxTsl9HshwsNLWb8tP1f9Dci/c+35iRc3n4OzYdKgMrcZhNlGk90Yv/7wX+j39VmAz1gfg86sIQ7hCV/bFpgNzBnJNqp678zl\n",
+                            "template": "#cloud-config\n# vim: syntax=yaml\n#\n# ***********************\n# \t---- for more examples look at: ------\n# ---\u003e https://cloudinit.readthedocs.io/en/latest/topics/examples.html\n# ******************************\n#\n# This is the configuration syntax that the write_files module\n# will know how to understand. encoding can be given b64 or gzip or (gz+b64).\n# The content will be decoded accordingly and then written to the path that is\n# provided.\n#\n# Note: Content strings here are truncated for example purposes.\nhostname: k8s000\npackage_update: true\npackages:\n- python-minimal\nssh_authorized_keys:\n  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsBhelq2Y9w2DBglDCiFnF9ViCiBEPMiGQBbhkkFPeO12/P5lg1ZJz+CzxS3f5hmoIHLX0LPvqL9Rl2geCuYGSWuYikSL4P3Dtx271n5gUcwZZqhuReM4hdoBmR7XxKmAM/+SJw0jww+7Rq/Ds0+wDAj+wNc1RczI5C2wZ6ydML2RM6IaA14LS8eYTeQyF5FkF9Bcs2lvcnCALADDdbwK8S0I9ivm8mg0bvu2sApHUs3hyCuybpi1cxTsl9HshwsNLWb8tP1f9Dci/c+35iRc3n4OzYdKgMrcZhNlGk90Yv/7wX+j39VmAz1gfg86sIQ7hCV/bFpgNzBnJNqp678zl\n"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.template"
+                },
+                "libvirt_cloudinit_disk.commoninit": {
+                    "type": "libvirt_cloudinit_disk",
+                    "depends_on": [
+                        "data.template_file.network_config",
+                        "data.template_file.user_data"
+                    ],
+                    "primary": {
+                        "id": "/var/lib/libvirt/images/commoninit-k8sn1.iso;5bf1feb6-4793-4312-27d2-0301fd3f79f1",
+                        "attributes": {
+                            "id": "/var/lib/libvirt/images/commoninit-k8sn1.iso;5bf1feb6-4793-4312-27d2-0301fd3f79f1",
+                            "meta_data": "",
+                            "name": "commoninit-k8sn1.iso",
+                            "network_config": "network:\nversion: 2\n        ethernets:\n         eno1:\n         dhcp4: true\n",
+                            "pool": "default",
+                            "user_data": "#cloud-config\n# vim: syntax=yaml\n#\n# ***********************\n# \t---- for more examples look at: ------\n# ---\u003e https://cloudinit.readthedocs.io/en/latest/topics/examples.html\n# ******************************\n#\n# This is the configuration syntax that the write_files module\n# will know how to understand. encoding can be given b64 or gzip or (gz+b64).\n# The content will be decoded accordingly and then written to the path that is\n# provided.\n#\n# Note: Content strings here are truncated for example purposes.\nhostname: k8s000\npackage_update: true\npackages:\n- python-minimal\nssh_authorized_keys:\n  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsBhelq2Y9w2DBglDCiFnF9ViCiBEPMiGQBbhkkFPeO12/P5lg1ZJz+CzxS3f5hmoIHLX0LPvqL9Rl2geCuYGSWuYikSL4P3Dtx271n5gUcwZZqhuReM4hdoBmR7XxKmAM/+SJw0jww+7Rq/Ds0+wDAj+wNc1RczI5C2wZ6ydML2RM6IaA14LS8eYTeQyF5FkF9Bcs2lvcnCALADDdbwK8S0I9ivm8mg0bvu2sApHUs3hyCuybpi1cxTsl9HshwsNLWb8tP1f9Dci/c+35iRc3n4OzYdKgMrcZhNlGk90Yv/7wX+j39VmAz1gfg86sIQ7hCV/bFpgNzBnJNqp678zl\n"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.libvirt"
+                },
+                "libvirt_domain.k8sn1": {
+                    "type": "libvirt_domain",
+                    "depends_on": [
+                        "libvirt_cloudinit_disk.commoninit",
+                        "libvirt_volume.k8sn1-qcow2"
+                    ],
+                    "primary": {
+                        "id": "bfdd80a3-c3b0-4777-8f8b-0357caeb2191",
+                        "attributes": {
+                            "arch": "x86_64",
+                            "autostart": "false",
+                            "cloudinit": "/var/lib/libvirt/images/commoninit-k8sn1.iso;5bf1feb6-4793-4312-27d2-0301fd3f79f1",
+                            "cmdline.#": "0",
+                            "console.#": "2",
+                            "console.0.source_path": "",
+                            "console.0.target_port": "0",
+                            "console.0.target_type": "serial",
+                            "console.0.type": "pty",
+                            "console.1.source_path": "",
+                            "console.1.target_port": "1",
+                            "console.1.target_type": "virtio",
+                            "console.1.type": "pty",
+                            "disk.#": "1",
+                            "disk.0.file": "",
+                            "disk.0.scsi": "false",
+                            "disk.0.url": "",
+                            "disk.0.volume_id": "/var/lib/libvirt/images/k8sn1-qcow2",
+                            "disk.0.wwn": "",
+                            "emulator": "/usr/bin/qemu-kvm",
+                            "firmware": "",
+                            "graphics.#": "1",
+                            "graphics.0.autoport": "true",
+                            "graphics.0.listen_type": "address",
+                            "graphics.0.type": "spice",
+                            "id": "bfdd80a3-c3b0-4777-8f8b-0357caeb2191",
+                            "initrd": "",
+                            "kernel": "",
+                            "machine": "ubuntu",
+                            "memory": "512",
+                            "name": "k8sn1",
+                            "network_interface.#": "1",
+                            "network_interface.0.addresses.#": "0",
+                            "network_interface.0.bridge": "",
+                            "network_interface.0.hostname": "",
+                            "network_interface.0.mac": "32:7F:D8:7B:46:C0",
+                            "network_interface.0.macvtap": "",
+                            "network_interface.0.network_id": "e20067fe-3532-459d-a342-e720422fdd21",
+                            "network_interface.0.network_name": "default",
+                            "network_interface.0.passthrough": "",
+                            "network_interface.0.vepa": "",
+                            "network_interface.0.wait_for_lease": "false",
+                            "nvram.#": "0",
+                            "qemu_agent": "false",
+                            "running": "true",
+                            "vcpu": "1"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 300000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.libvirt"
+                },
+                "libvirt_volume.k8sn1-qcow2": {
+                    "type": "libvirt_volume",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "/var/lib/libvirt/images/k8sn1-qcow2",
+                        "attributes": {
+                            "format": "qcow2",
+                            "id": "/var/lib/libvirt/images/k8sn1-qcow2",
+                            "name": "k8sn1-qcow2",
+                            "pool": "default",
+                            "size": "5242880000",
+                            "source": "./image/ubuntu"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.libvirt"
+                }
+            },
+            "depends_on": []
+        }
+    ]
+}
