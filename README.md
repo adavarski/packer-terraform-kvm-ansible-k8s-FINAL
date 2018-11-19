@@ -44,7 +44,7 @@ Run Shell:
 ```
  $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image 
  $ packer-packages.sh to build image with packages installed (python-minimal, ansible) 
- $ packer-packages-ansible.sh to build to provision with ansible-local *docker, kubectl, kubeadm, etc ...and setup host for k8s... if you use this script you have to change ansible/site.yml file and remove:
+ $ packer-packages-ansible.sh to build and provision with ansible-local *docker, kubectl, kubeadm, etc ...and setup host for k8s... if you use this script you have to change ansible/site.yml file and remove:
  
 - name: prepare all
   hosts: all
@@ -52,6 +52,14 @@ Run Shell:
   gather_facts: True
   roles:
     - { role: 'prepare', tags: 'prepare' }
+ 
+ also remove from cloud_init.cfg
+ 
+package_update: true
+packages:
+- python-minimal
+
+We will inject ssh key with terraform for different k8s cluster
  
 
  $ terraform init; terrafrorm apply ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init 
