@@ -1,0 +1,46 @@
+{
+  "builders":
+  [
+    {
+      "type": "qemu",
+      "iso_url": "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img",
+      "iso_checksum": "892b936dddfa4d16c31667d669564d361457b76f5432b13f52104a88fa424914",
+      "iso_checksum_type": "sha256",
+      "disk_image": true,
+      "output_directory": "image",
+      "disk_size": 5000,
+      "format": "qcow2",
+      "disk_compression": true,
+      "headless": true,
+      "accelerator": "none",
+      "ssh_username": "ubuntu",
+      "ssh_password": "ubuntu",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "1300s",
+      "vm_name": "ubuntu",
+      "use_default_display": true,
+      "qemuargs": [
+        ["-m", "2048M"],
+        ["-smp", "2"],
+        ["-fda", "cloud.img"],
+        ["-serial", "mon:stdio"]
+      ]
+    }
+],
+"provisioners": [  
+ {
+    "type" : "shell",
+    "execute_command": "echo '{{user `ssh_password`}}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+    "inline": [
+      "apt-get update",
+      "apt-get install -y ansible",
+      "apt-get install -y python-minimal"
+    ]
+  },
+  {
+    "type": "ansible-local",
+    "playbook_file": "site.yml"
+  }
+  ]
+}
+
