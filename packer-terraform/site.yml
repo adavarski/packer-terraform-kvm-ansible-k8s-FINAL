@@ -1,0 +1,34 @@
+- hosts: localhost
+  become: yes
+  tasks:
+   - command: modprobe {{item}}
+     with_items:    
+       - ip_vs
+       - ip_vs_rr
+       - ip_vs_wrr
+       - ip_vs_sh
+       - nf_conntrack_ipv4
+   - lineinfile: path=/etc/modules line='{{item}}' create=yes state=present
+     with_items: 
+       - ip_vs
+       - ip_vs_rr
+       - ip_vs_wrr
+       - ip_vs_sh
+       - nf_conntrack_ipv4
+   - shell: "apt-get -y update && apt-get install -y apt-transport-https"
+   - apt_repository:
+         repo: 'deb http://apt.kubernetes.io/ kubernetes-xenial main'
+         state: present
+   - name: install docker and kubernetes
+     apt: name={{ item }} state=present allow_unauthenticated=yes
+     with_items:
+       - docker.io
+       - kubelet
+       - kubeadm
+       - kubectl
+       - ntp
+   - sysctl: name=net.ipv4.ip_forward value=1 state=present reload=yes sysctl_set=yes
+   - service: name=docker state=started enabled=yes
+   - service: name=ntp state=started enabled=yes
+   - service: name=kubelet state=started enabled=yes
+
