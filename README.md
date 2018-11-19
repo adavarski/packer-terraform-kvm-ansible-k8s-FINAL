@@ -18,7 +18,7 @@ Automatically provision a fully customizable and production-worthy cloud<br>
 
 Download and install packer and terraform 
 
-Terraform Setup Env:
+```Terraform Setup Env:
 
 $ systemctl stop/disable apparmor
 
@@ -38,6 +38,7 @@ You will now find the binary at $GOPATH/bin/terraform-provider-libvirt
 $ terraform init ---> create $HOME/.terraform.d
 
 $ cd $HOME/.terraform.d; mkdir plugins; cp $GOPATH/bin/terraform-provider-libvirt $HOME/.terraform.d/plugins
+```
 
 Run Shell:
 ```
