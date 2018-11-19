@@ -20,6 +20,8 @@
    - apt_repository:
          repo: 'deb http://apt.kubernetes.io/ kubernetes-xenial main'
          state: present
+   - name: apt-get update
+     apt: update_cache=yes
    - name: install docker and kubernetes
      apt: name={{ item }} state=present allow_unauthenticated=yes
      with_items:
