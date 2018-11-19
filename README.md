@@ -44,6 +44,13 @@ Run Shell:
  $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image 
 
  $ terraform init; terrafrorm apply ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
+ 
+ Restart VMs because of machine-id bug --- cloud-init: rm /etc/machine-id
+ 
+$ for DOM in `virsh list|grep k8s|awk '{print $2}'`; do virsh shutdown $DOM;done
+for DOM in `virsh list --all|grep k8s|awk '{print $2}'`; do virsh start $DOM;done
+
+
 ```
 
 
@@ -54,7 +61,7 @@ Get nodes IPs
 
 Example:
 ```
-$ for i in {000,0001,0002}; do virsh domifaddr k8s$i;done
+$ for i in {000,001,002}; do virsh domifaddr k8s$i;done
  Name       MAC address          Protocol     Address
 -------------------------------------------------------------------------------
  vnet2      1e:77:aa:f9:29:42    ipv4         192.168.122.248/24
