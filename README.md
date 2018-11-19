@@ -43,8 +43,16 @@ $ cd $HOME/.terraform.d; mkdir plugins; cp $GOPATH/bin/terraform-provider-libvir
 Run Shell:
 ```
  $ packer.sh ---> creates ./image/ubuntu from ubuntu cloud image 
- or we can use $ packer-packages.sh to build image with packages installed (python-minimal, ansible) 
- and also can add ssh key and provision with ansible-local 
+ $ packer-packages.sh to build image with packages installed (python-minimal, ansible) 
+ $ packer-packages-ansible.sh to build to provision with ansible-local *docker, kubectl, kubeadm, etc ...and setup host for k8s... if you use this script you have to change ansible/site.yml file and remove:
+ 
+- name: prepare all
+  hosts: all
+  become: True
+  gather_facts: True
+  roles:
+    - { role: 'prepare', tags: 'prepare' }
+ 
 
  $ terraform init; terrafrorm apply ---> create 3 k8s VM from ./image/ubuntu, uses cloud-init 
  to setup networking, public key and install python-minimal ... sudo is working for user ubuntu
