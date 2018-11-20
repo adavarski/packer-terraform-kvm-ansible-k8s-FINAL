@@ -3,8 +3,7 @@
 ################################
 # Libvirt provider #
 ##################################
-# Ubuntu 16.04 from Packer Build #
-##################################
+
 
 provider "libvirt" { uri = "qemu:///system" }
 
